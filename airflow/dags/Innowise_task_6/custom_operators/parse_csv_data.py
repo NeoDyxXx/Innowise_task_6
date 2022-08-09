@@ -19,5 +19,12 @@ class CSVParser(BaseOperator):
 
         data['Original_Release_Date'] = data['Original_Release_Date'].fillna('1000-01-01T23:00:00Z')
         data['Current_Version_Release_Date'] = data['Current_Version_Release_Date'].fillna('1000-01-01T23:00:00Z')
+        data[data['Original_Release_Date'] == '0000-00-00T00:00:00Z'] = '1000-01-01T01:00:00Z'
+        data[data['Current_Version_Release_Date'] == '0000-00-00T00:00:00Z'] = '1000-01-01T01:00:00Z'
+
+        data['All_Genres'] = data['All_Genres'].str.replace('\'', '')
+        data['Languages'] = data['All_Genres'].str.replace('\'', '')
 
         data.to_csv(self.output_file_name, index=False)
+
+        # TODO: Make writing files in one directory with file's counter

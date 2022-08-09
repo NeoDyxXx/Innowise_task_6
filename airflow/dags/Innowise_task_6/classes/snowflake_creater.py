@@ -31,19 +31,19 @@ class SnowflakeCreater(SnowflakeManager):
         super().execute('''create table if not exists stage_table
             (
                 _id varchar(24),
-                IOS_App_Id int,
-                Title varchar(50),
-                Developer_Name varchar(50),
-                Developer_IOS_Id int,
-                IOS_Store_Url varchar(150),
-                Seller_Official_Website varchar(150),
-                Age_Rating varchar(5),
+                IOS_App_Id varchar(24),
+                Title text,
+                Developer_Name text,
+                Developer_IOS_Id varchar(24),
+                IOS_Store_Url text,
+                Seller_Official_Website text,
+                Age_Rating varchar(25),
                 Total_Average_Rating float,
                 Total_Number_of_Ratings float,
                 Average_Rating_For_Version float,
                 Number_of_Ratings_For_Version float,
-                Original_Release_Date date,
-                Current_Version_Release_Date date,
+                Original_Release_Date timestamp_tz,
+                Current_Version_Release_Date timestamp_tz,
                 Price_USD float,
                 Primary_Genre varchar(50),
                 All_Genres array,
@@ -53,3 +53,5 @@ class SnowflakeCreater(SnowflakeManager):
 
         super().execute('''create stage if not exists stage_storage
                                 file_format = (type = 'CSV' field_delimiter = ',' skip_header = 1)''')
+
+        super().execute('''create stream if not exists raw_stream on table raw_table''')
