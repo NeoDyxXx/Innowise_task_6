@@ -51,7 +51,36 @@ class SnowflakeCreater(SnowflakeManager):
                 Description text
             )''')
 
+        super().execute('''create table if not exists IOS_App
+            (
+                IOS_App_Id varchar(24),
+                Developer_IOS_Id varchar(24),
+                Title text,
+                IOS_Store_Url text,
+                Age_Rating varchar(25),
+                Total_Average_Rating float,
+                Total_Number_of_Ratings float,
+                Average_Rating_For_Version float,
+                Number_of_Ratings_For_Version float,
+                Original_Release_Date timestamp_tz,
+                Current_Version_Release_Date timestamp_tz,
+                Price_USD float,
+                Primary_Genre varchar(50),
+                All_Genres array,
+                Languages array,
+                Description text
+            )''')
+
+        super().execute('''create table if not exists Develop
+            (
+                Developer_IOS_Id varchar(24),
+                Developer_Name text,
+                Seller_Official_Website text
+            )''')
+
         super().execute('''create stage if not exists stage_storage
                                 file_format = (type = 'CSV' field_delimiter = ',' skip_header = 1)''')
 
         super().execute('''create stream if not exists raw_stream on table raw_table''')
+        super().execute('''create or replace stream stage_stream_for_IOS_App on table stage_table''')
+        super().execute('''create  or replace stream stage_stream_for_Develop on table stage_table''')
